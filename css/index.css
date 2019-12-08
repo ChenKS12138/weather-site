@@ -14,3 +14,12 @@
 li{
   margin: 0.5rem 0 0.5rem 0;
 }
+.flash-infinite{
+  animation-name: flash;
+  animation-iteration-count: infinite;
+  animation-duration: 2s;
+}
+.my-shake{
+  animation-name: shake;
+  animation-duration: 400ms;
+}
