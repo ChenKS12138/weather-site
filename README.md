@@ -8,6 +8,6 @@
 <table>
   <tr>
     <td align="center"><a href="https://github.com/chenks12138"><img src="https://github.com/chenks12138.png?s=64" width="100px;"/><br /><sub><b>陈凯森</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/Xander-C"><img src="https://github.com/Xander-C.png?s=64" width="100px;"/><br /><sub><b>陈炫栋</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/Xander-C"><img src="https://avatars0.githubusercontent.com/u/29938808?s=460&v=4" width="100px;"/><br /><sub><b>陈炫栋</b></sub></a><br /></td>
   </tr>
 </table>
