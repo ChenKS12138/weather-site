@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>weather-site</title>
+  <!-- 引用了animate.css -->
   <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/index.css">
 </head>
@@ -13,7 +14,7 @@
     <div id="input-container" class="animated">
       <input type="text" id="province" value="江苏" placeholder="省">
       <input type="text" id="city" value="南京" placeholder="市">
-      <button id="btn_query" onclick="fetchWeatherDetail()">查询天气</button>
+      <button id="btn_query" onclick="handleFetchWeather()">查询天气</button>
     </div>
     <ol id="display-container"></ol>
   </div>
