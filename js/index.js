@@ -10,9 +10,9 @@ const createWeatherUrl = (type = "forecast_24h", province, city) => `${WEATHER_B
 
 /**
  * 
- * @param {元素内部的HTML} innerHTML 
- * @param {元素标签名} tagName 
- * @param {元素的样式} style 
+ * @param {String} innerHTML 元素内部的HTML
+ * @param {String} tagName 元素标签名
+ * @param {String} style 元素的样式
  */
 function createElement(innerHTML,tagName="span",style="margin: 0 1rem 0 1rem;") {
   const element = document.createElement(tagName);
@@ -23,9 +23,9 @@ function createElement(innerHTML,tagName="span",style="margin: 0 1rem 0 1rem;") 
 
 class WeatherItem {
   /**
-   * @param {一个包含天气信息的Object} weatherItem 
-   * @param {元素类名} classNames 
-   * @param {元素样式} style 
+   * @param {Object} weatherItem 一个包含天气信息的Object
+   * @param {String} classNames 元素类名
+   * @param {String} style 元素样式
    *  这是JavaScript中的类
    */
   constructor(weatherItem, classNames, style) {
