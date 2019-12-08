@@ -23,3 +23,20 @@ li{
   animation-name: shake;
   animation-duration: 400ms;
 }
+.input{
+    margin-right: 0;
+    height: 30px;
+}
+.text{
+    font-size: 15px;
+}
+#btn_query{
+    border: 0;
+    height: 34px;
+    width: 80px;
+    font-size: 15px;
+    color: white;
+    border-bottom: 1px solid #2d78f4;
+    margin-left: 0;
+    background-color: rgb(51,133,255);
+}

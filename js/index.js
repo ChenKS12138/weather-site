@@ -78,6 +78,7 @@ async function handleFetchWeather() {
   const inputContainer = document.querySelector("#input-container");
 
   // 添加inputContainer闪烁效果
+  inputContainer.classList.remove("my-shake");
   inputContainer.classList.add("flash-infinite");
 
   // 想后端发送请求
