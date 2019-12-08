@@ -5,7 +5,12 @@ const WEATHER_BASE_URL = 'https://my-weather12138.herokuapp.com/';
 const provinceElement = document.querySelector("#province");
 const cityElement = document.querySelector("#city");
 
-// 生成请求的URL，其中type可以是forecast_1h|forecast_24h|index|alarm|limit|tips
+/**
+ * 
+ * @param {String} type 可以是forecast_1h|forecast_24h|index|alarm|limit|tips
+ * @param {String} province 查询的省
+ * @param {String} city 查询的市
+ */
 const createWeatherUrl = (type = "forecast_24h", province, city) => `${WEATHER_BASE_URL}?source=xw&weather_type=${type}&province=${province}&city=${city}`;
 
 /**
