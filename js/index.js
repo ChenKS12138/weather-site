@@ -1,71 +1,31 @@
-// 这是天气api的地址
-const WEATHER_BASE_URL = 'https://my-weather12138.herokuapp.com/';
+import { createElement,createAnimation } from './shared/util.js';
+import { requestWeatherDays } from './shared/api.js';
 
 // 获取省和市输入框的DOM元素
 const provinceElement = document.querySelector("#province");
 const cityElement = document.querySelector("#city");
 
-/**
- * 
- * @param {String} type 可以是forecast_1h|forecast_24h|index|alarm|limit|tips
- * @param {String} province 查询的省
- * @param {String} city 查询的市
- */
-const createWeatherUrl = (type = "forecast_24h", province, city) => `${WEATHER_BASE_URL}?source=xw&weather_type=${type}&province=${province}&city=${city}`;
-
-/**
- * 
- * @param {String} innerHTML 元素内部的HTML
- * @param {String} tagName 元素标签名
- * @param {String} style 元素的样式
- */
-function createElement(innerHTML,tagName="span",style="margin: 0 1rem 0 1rem;") {
-  const element = document.createElement(tagName);
-  element.innerHTML = innerHTML;
-  element.style = style;
-  return element;
-}
-
 class WeatherItem {
-  /**
-   * @param {Object} weatherItem 一个包含天气信息的Object
-   * @param {String} classNames 元素类名
-   * @param {String} style 元素样式
-   *  这是JavaScript中的类
-   */
-  constructor(weatherItem, classNames, style) {
-    /**
-     * 这是JavaScript的对象结构,很有用的。
-     * 下面这行代码作用类似 
-     * const day_weather = weatherItem.day_weather;
-     * 以此类推
-     */
-    const { day_weather, night_weather, min_degree, max_degree, time } = weatherItem;
-    this.dayWeather = day_weather;
-    this.nightWeather = night_weather;
-    this.minDegree = min_degree;
-    this.maxDegree = max_degree;
-    this.time = time;
-    this.classNames = classNames;
-    this.style = style;
+  constructor(weatherInfo) {
+    this.info = weatherInfo;
+    this.element = document.createElement('li');
   }
-
+  addClassName(className) {
+    this.element.classList.add(className);
+    return this;
+  }
+  setStyle(style) {
+    this.element.style = style;
+    return this;
+  }
   toHTMLElement() {
-    const element = document.createElement('li');
-    element.appendChild(createElement(`日间天气：${this.dayWeather}`));
-    element.appendChild(createElement(`夜间天气：${this.nightWeather}`));
-    element.appendChild(createElement(`最低温度：${this.minDegree}℃`));
-    element.appendChild(createElement(`最高温度：${this.maxDegree}℃`));
-    element.appendChild(createElement(`时间：${this.time}`));
-
-    // 如果存在类名或者样式，就往创建的这个元素添加
-    if (this.classNames) {
-      element.classList.add(...this.classNames.split(" "));
-    }
-    if (this.style) {
-      element.style = this.style;
-    }
-    return element;
+    const { day_weather, night_weather, min_degree, max_degree, time } = this.info;
+    this.element.appendChild(createElement(`日间天气：${day_weather}`));
+    this.element.appendChild(createElement(`夜间天气：${night_weather}`));
+    this.element.appendChild(createElement(`最低温度：${min_degree}℃`));
+    this.element.appendChild(createElement(`最高温度：${max_degree}℃`));
+    this.element.appendChild(createElement(`时间：${time}`));
+    return this.element;
   }
 }
 
@@ -79,28 +39,16 @@ async function handleFetchWeather() {
   const newDisplayContainer = document.createElement('ol');
   newDisplayContainer.id = "display-container";
 
-  // 获取inputContainer
   const inputContainer = document.querySelector("#input-container");
-
-  // 添加inputContainer闪烁效果
-  inputContainer.classList.remove("my-shake");
-  inputContainer.classList.add("flash-infinite");
-
-  // 想后端发送请求
-  const response = await fetch(createWeatherUrl("forecast_24h", provinceElement.value, cityElement.value));
-  
-  // 解析数据
-  const data = await response.json();
+  const stopFlashAnimation = createAnimation(inputContainer, "flash-infinite");
+  const data = await requestWeatherDays(provinceElement.value,cityElement.value);
   
   // 收到请求的响应后停止闪烁
-  inputContainer.classList.remove("flash-infinite");
+  stopFlashAnimation();
 
   // 如果查询的这个省和城市没有天气信息就会有抖动效果
   if (!data.data || !data.data.forecast_24h || !data.data.forecast_24h["0"]) {
-    inputContainer.classList.remove("my-shake");
-    setTimeout(() => {
-      inputContainer.classList.add("my-shake");
-    }, 300);
+    createAnimation(inputContainer, "my-shake", 300);
     return;
   }
 
@@ -109,7 +57,10 @@ async function handleFetchWeather() {
    * Object.values() 参考这个 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/values
    */
   Object.values(data.data.forecast_24h).forEach((item, index) => {
-    const weatherItem = new WeatherItem(item, "animated bounceInUp", `animation-duration:${index*1 + 7}00ms;`);
+    const weatherItem = new WeatherItem(item);
+    weatherItem.addClassName("animated")
+      .addClassName("bounceInUp")
+      .setStyle(`animation-duration:${index * 1 + 7}00ms;`);
     newDisplayContainer.appendChild(weatherItem.toHTMLElement());
   })
   
@@ -117,3 +68,5 @@ async function handleFetchWeather() {
   document.querySelector("#display-container").remove();
   document.querySelector("#app").appendChild(newDisplayContainer);
 }
+
+document.querySelector("#btn_query").addEventListener("click", handleFetchWeather);
